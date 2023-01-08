@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { getPopularSubRedditsListFromAPI } from "./RedditApi.js";
 import { useDispatch, useSelector } from "react-redux";
-import { subredditList } from "../features/aside/subredditListSlice.js";
-import { rawPopularPosts } from "./RedditApiSlice.js";
-import { popularPosts } from "../features/posts/PostSlice.js";
+import { subredditList } from "../features/subredditListSlice.js";
+import { rawPopularPosts } from "../features/RedditApiSlice.js";
+import { popularPosts } from "../features/PostSlice.js";
 import moment from "moment";
 
 async function useSubredditListAPI() {

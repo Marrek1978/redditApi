@@ -1,8 +1,5 @@
 import React from "react";
-// import { getPopularSubRedditsListFromAPI } from "../../apiServices/RedditApi.js";
-// import { useDispatch, useSelector } from "react-redux";
-// import { subredditList } from "./subredditListSlice.js";
-import useSubredditListAPI from "../../apiServices/useRedditAPI.js";
+import useSubredditListAPI from "../../services/useRedditAPI.js";
 import SubredditList from "./SubredditList.js";
 
 export default function Aside() {

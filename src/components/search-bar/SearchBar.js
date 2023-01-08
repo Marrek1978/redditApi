@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { search } from "./searchSlice";
+import { search } from "../../features/searchSlice";
 import { useSelector } from "react-redux";
-import alien from "../../components/images/blue-alien.png";
+import alien from "../../resources/images/blue-alien.png";
 
 export default function SearchBar() {
   const [searchString, setSearchString] = useState("");
@@ -18,7 +18,7 @@ export default function SearchBar() {
     setSearchString("");
   };
 
-  const searchTerm = useSelector((state) => state.search.searchKey);
+  // const searchTerm = useSelector((state) => state.search.searchKey);
   // console.log(' in search bar searchTerm is ', searchTerm)
 
   return (

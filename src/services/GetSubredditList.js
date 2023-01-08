@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import { getPopularSubRedditsListFromAPI } from "./RedditApi.js";
 // import SubredditList from "./SubredditList.js";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,5 +1,5 @@
 import React from "react";
-import {usePopularPostsAPI} from "../../apiServices/useRedditAPI.js";
+// import {usePopularPostsAPI} from "../../services/useRedditAPI.js";
 import PostList from "./PostList.js";
 
 export default function Posts() {

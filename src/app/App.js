@@ -1,7 +1,7 @@
 import "./App.css";
-import SearchBar from "./features/search-bar/SearchBar";
-import Aside from "./features/aside/Aside";
-import Posts from "./features/posts/Posts";
+import SearchBar from "../components/search-bar/SearchBar";
+import Aside from "../components/aside/Aside";
+import Posts from "../components/posts/Posts";
 
 function App() {
   return (
