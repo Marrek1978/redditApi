@@ -1,35 +1,25 @@
-
-
-export default function Subreddit({item}) {
-
-  // console.log('subreddit is', item ) 
+export default function Subreddit({ item }) {
   let icon;
   let reddit;
 
-    for ( let key in item ) {
-      console.log('key is ', key)
-      if (key === 'iconUrl') {
-        console.log('key is iconUrl', key)
-        if (item[key] === '') {
-          icon = 'https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png'
-        }else{
-          icon = item[key]
-        }
-      }
-      if(key === 'subreddit') {
-        reddit = item[key]
+  for (let key in item) {
+    if (key === "iconUrl") {
+      if (item[key] === "") {
+        icon =
+          "https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png";
+      } else {
+        icon = item[key];
       }
     }
+    if (key === "subreddit") {
+      reddit = item[key];
+    }
+  }
 
-
-console.log('icon is',  icon )
-    
-    
-    return (
-  
-      <div className="flex">hi
-        <img src={icon} alt='icon' />
-        {reddit}
-      </div>
-  )
+  return (
+    <div className="flex mb-6">
+      <img src={icon} alt="icon" className="w-6 h-6 mr-3" />
+      <div className="font-semibold text-sm">{reddit}</div>
+    </div>
+  );
 }

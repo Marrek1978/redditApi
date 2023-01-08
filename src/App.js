@@ -6,12 +6,11 @@ import Posts from "./features/posts/Posts";
 function App() {
   return (
     <>
-      
-        <SearchBar />
-        <div className="max-w-screen-xl m-auto flex items-center h-full ">
-          <Aside />
-          <Posts />
-        </div>
+      <SearchBar />
+      <div className="max-w-screen-xl m-auto flex h-full">
+        <Aside />
+        <Posts />
+      </div>
     </>
   );
 }
