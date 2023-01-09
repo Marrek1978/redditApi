@@ -1,5 +1,5 @@
 import React from "react";
-import Subreddit from "./Subreddit.js";
+import SubredditLink from "./SubredditLink.js";
 import {  useSelector} from "react-redux";
 
 
@@ -15,7 +15,7 @@ export default function SubredditList({ subredditList }) {
     listItems = listArr.map((sub, index) => {
       return (
         <div key={index}>
-        <Subreddit item={sub} />
+        <SubredditLink item={sub} />
       </div>
       );
     });

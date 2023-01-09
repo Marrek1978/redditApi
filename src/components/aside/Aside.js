@@ -11,15 +11,15 @@ export default function Aside() {
 
   return (
     <div
-      className="basic-card basis-80
-  mt-12 mr-0
-  bg-gradient-to-b from-[#273a5c] to-[#22283f]
-  drop-shadow-xl
-  rounded
-  "
+      className="basic-card h-fit
+        mt-12 mr-0
+        bg-gradient-to-b from-[#273a5c] to-[#22283f]
+        drop-shadow-xl
+        rounded-xl
+        "
     >
-      <div className="m-6 text-2xl font-light tracking-tight">
-        <h3> Popular Subreddits</h3>
+      <div className="m-6 text-2xl font-light tracking-tight text-slate-300">
+        Popular Subreddits
         <SubredditList />
       </div>
     </div>

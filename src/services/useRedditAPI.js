@@ -1,5 +1,8 @@
 import { useEffect } from "react";
-import { getPopularSubRedditsListFromAPI } from "./RedditApi.js";
+import {
+  getPopularSubRedditsListFromAPI,
+  getSubredditPostsAPI,
+} from "./RedditApi.js";
 import { useDispatch, useSelector } from "react-redux";
 import { subredditList } from "../features/subredditListSlice.js";
 import { rawPopularPosts } from "../features/RedditApiSlice.js";
@@ -7,6 +10,8 @@ import { popularPosts } from "../features/PostSlice.js";
 import moment from "moment";
 
 async function useSubredditListAPI() {
+
+  console.log("useSubredditListAPI is called");
   const dispatch = useDispatch();
   const dispatch2 = useDispatch();
   const dispatch3 = useDispatch();
@@ -80,11 +85,11 @@ async function useSubredditListAPI() {
         sanitizedPostsArray.push(postObj);
       });
 
-      const newPostsList = {
-        isOk: true,
-        apiData: sanitizedPostsArray,
-        apiError: null,
-      };
+      // const newPostsList = {
+      //   isOk: true,
+      //   apiData: sanitizedPostsArray,
+      //   apiError: null,
+      // };
 
       // console.log('sanitizedPostsArray is ', newPostsList)
 
@@ -94,3 +99,60 @@ async function useSubredditListAPI() {
 }
 
 export default useSubredditListAPI;
+
+export async function useSubredditPostsAPI(subreddit) {
+  console.log( ' in useSubredditPostsAPI nad subreddit is ', subreddit)
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      const fetchSubredditPosts = async () => {
+        const rawSubredditPostsData = await getSubredditPostsAPI(subreddit);
+        console.log('rawSubredditPostsData is ', rawSubredditPostsData ) ;
+        //sanitizing data now
+
+        const rawSubredditPostsDataObj = rawSubredditPostsData.data;
+        // console.log( 'rawSubredditPostsDataObj is', rawSubredditPostsDataObj)
+        const postsArrary = rawSubredditPostsDataObj.children;
+        // console.log( 'postsArrary is', postsArrary)
+        // Subreddits Post List for state
+        // const subRedditPstsArray = []; /// [{title: title, iconUrl: iconUrl }]
+        const rawDataArr = postsArrary;
+        const sanitizedPostsArray = [];
+
+        rawDataArr.forEach((obj) => {
+          const postObj = {
+            title: obj.data.title,
+            author: obj.data.author,
+            when: obj.data.created_utc,
+            timeAgo: moment(new Date(obj.data.created_utc * 1000)).fromNow(),
+            imageUrl: obj.data.url,
+            postURL: obj.data.url_overridden_by_dest,
+            numComments: obj.data.num_comments,
+            commentsUrl: obj.data.permalink,
+            subreddit: obj.data.subreddit,
+            subreddit_subscribers: obj.data.subreddit_subscribers,
+          };
+
+          sanitizedPostsArray.push(postObj);
+        });
+
+        // const newPostsList = {
+        //   isOk: true,
+        //   apiData: sanitizedPostsArray,
+        //   apiError: null,
+        // };
+
+        // console.log('sanitizedPostsArray is ', sanitizedPostsArray)
+
+        dispatch(popularPosts(sanitizedPostsArray));
+
+        // dispatch(rawPopularPosts(rawData));
+      };
+      fetchSubredditPosts();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+}
