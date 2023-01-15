@@ -14,7 +14,7 @@ export default function Post({ post, index }) {
   const commentsUrl = post.commentsUrl;
   const subreddit = post.subreddit;
   const subreddit_subscribers = post.subreddit_subscribers;
-  const [play, setPlay] = useState(true);
+  // const [play, setPlay] = useState(true);
 
   let postBody;
   const isRedditlink = imageUrl.match(/(redd.*it)/);
@@ -121,7 +121,7 @@ export default function Post({ post, index }) {
   return (
     <>
       <Animate
-        play={play}
+        play={true}
         key={index}
         sequenceIndex={index}
         start={{ opacity: 0, transform: "translateY(-10px)" }}
@@ -129,9 +129,9 @@ export default function Post({ post, index }) {
       >
         <div
           id="wholePost"
-          className="flex flex-col items-center w-full truncate
+          className="flex flex-col items-center w-full 
     pl-12 pr-12 pt-7 pb-6
-    mb-6
+    mb-6 mr-3
     bg-gradient-to-b from-[#323949] to-[#252B39]
     drop-shadow-xl
     rounded-xl

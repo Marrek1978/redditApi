@@ -4,7 +4,6 @@ const subredditBaseURL = "https://www.reddit.com/";
 export async function getPopularSubRedditsListFromAPI() {
   try {
 
-    console.log('in api and returning data')
     const resp = await fetch(subredditBaseURL + popularRedditsURL);
     const data = await resp.json();
     

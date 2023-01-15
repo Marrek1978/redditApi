@@ -1,51 +1,23 @@
 import React, { useState, useEffect } from "react";
-import SubredditLink from "./SubredditLink.js";
 import { useSelector, useDispatch } from "react-redux";
 import { popularPosts, setAsLoading } from "../../features/PostSlice.js";
 import { fetchSubredditPostsAPI } from "../../services/APIServices.js";
 import { sanitizePostFromRawData } from "../../services/APIServices.js";
+import MenuItem from "./MenuItem";
 
-export default function SubredditList() {
-  const rawDataObj = useSelector((state) => state.rawPopularPosts);
-  const isLoading = rawDataObj.isLoading;
-  const isOK = rawDataObj.isOk;
-  const apiError = rawDataObj.apiError;
-  let message = null;
-
-  const subRedditListObj = useSelector((state) => state.subredditList);
+export default function Menu({handleCloseClick}) {
+  const menuListObj = useSelector((state) => state.subredditList);
+  const menuListArr = menuListObj.apiData.apiData;
+  console.log("menuListArr", menuListArr); // array of objects for links to
 
   const dispatch = useDispatch();
 
-
-  if (isLoading) {
-    message = <div>Loading...</div>;
-  }
-
-  if (!isOK || apiError !== null) {
-    console.log("in error state");
-
-    message = (
-      <div className="mt-3">
-        Fatal Error: There was an error fetching the data from the Reddit API.
-        {apiError ? apiError : ""}
-      </div>
-    );
-  }
-
-  if(!isLoading && isOK){
-    message = '';
-  }
-
-
-  const list = subRedditListObj;
-  const listArr = list.apiData.apiData;
-
-  async function handleLinkClick(e) {
-    let rawData;
-
+  async function handleMenuItemClick(e) {
     try {
+      console.log( 'in menu item click' )
       dispatch(setAsLoading(true));
-      rawData = await fetchSubredditPostsAPI(e.target.id);
+      handleCloseClick();
+      const rawData = await fetchSubredditPostsAPI(e.target.id);
       const sanitizedPostsArray = sanitizePostFromRawData(rawData);
       dispatch(popularPosts(sanitizedPostsArray));
     } catch (e) {
@@ -53,16 +25,19 @@ export default function SubredditList() {
     }
   }
 
-  let listItems;
+  let listMenuItems;
 
-  if (listArr !== undefined) {
-    listItems = listArr.map((item, index) => {
+  if (menuListArr !== undefined) {
+    listMenuItems = menuListArr.map((item, index) => {
       // console.log("item is ", item);
       let icon;
       let reddit;
 
       for (let key in item) {
+        // console.log("key is ", key);
         if (key === "iconUrl") {
+
+          // console.log("item[key] is ", item[key]);
           if (item[key] === "") {
             icon =
               "https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png";
@@ -73,27 +48,29 @@ export default function SubredditList() {
         if (key === "subreddit") {
           reddit = item[key];
         }
+
+        
       }
 
       return (
         <div key={index}>
-          <SubredditLink
+          <MenuItem
             icon={icon}
             reddit={reddit}
             // item={sub}
-            handleLinkClick={handleLinkClick}
+            handleMenuItemClick={handleMenuItemClick}
           />
         </div>
       );
     });
   }
 
+  console.log("listMenuItems", listMenuItems)
 
   return (
     <>
-      <div id="subRedditlistStyles" className="mt-9">
-        {message}
-        {listItems}
+      <div id="Menu" className="mt-9">
+        {listMenuItems}
       </div>
     </>
   );

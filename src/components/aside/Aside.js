@@ -6,10 +6,13 @@ export default function Aside() {
   return (
     <div
       className="basic-card h-fit
-        mt-12 mr-0
-              "
+        mt-12 mr-0 "
     >
-      <div className="m-6 text-2xl font-light tracking-tight text-slate-300">
+      <div className="hidden sm:block
+      mt-6 mr-6 mb-6 ml-3
+      text-xl font-light tracking-tight text-slate-300 
+      
+      ">
         Popular Subreddits
         <SubredditList />
       </div>

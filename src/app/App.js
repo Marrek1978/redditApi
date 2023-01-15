@@ -10,7 +10,6 @@ function App() {
   useSubredditListAPI();
   return (
     <>
-      <div>test</div>
       <BrowserRouter>
         <SearchBar />
         <div className="max-w-screen-xl m-auto flex flex-initial h-full">

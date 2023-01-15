@@ -12,7 +12,6 @@ const popularApiSlice = createSlice({
   initialState,
   reducers: {
     rawPopularPosts(state, action) {
-      console.log("in rawPopularAPI Slice and raw data is ", action.payload);
       return {
         ...state,
         apiData: action.payload.apiData,

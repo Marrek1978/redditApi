@@ -6,12 +6,9 @@ import { useState } from "react";
 
 export default function PostList() {
   const data = useSelector((state) => state.popularPosts);
-  console.log("data for postlist is, ", data);
   const isLoading = data.isLoading;
   const error = data.apiError;
-  // console.log("post data is, ", data);
   const postsListArray = data.apiData;
-  const [play, setPlay] = useState(false);
 
   if (error) {
     console.log("error is ", error);
@@ -36,7 +33,7 @@ export default function PostList() {
       ) : (
         <div
           className="posts-location h-fit w-3/4
-            mt-12 ml-6 
+            mt-12 ml-3 mr-6
             flex-1
            "
         >

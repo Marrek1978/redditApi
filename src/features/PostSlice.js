@@ -12,7 +12,6 @@ const postsListSlice = createSlice({
   initialState,
   reducers: {
     popularPosts(state, action) {
-      console.log("in popular posts Slice is ", action.payload);
       return {
         ...state,
         apiData: action.payload,

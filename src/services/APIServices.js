@@ -60,7 +60,6 @@ async function useSubredditListAPI() {
 
   //when raw data loads, sanitize it and dispatch the slices for list and posts.
   useEffect(() => {
-    console.log( " in use effect for subreddit list and rawDataObj is",  rawDataObj  );
     const rawPopularPostListsObj = rawDataObj.apiData.data;
     if (rawPopularPostListsObj !== undefined) {
       const popularPostsArrary = rawPopularPostListsObj.children;
