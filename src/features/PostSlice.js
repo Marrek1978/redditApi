@@ -4,6 +4,7 @@ const initialState = {
   isOk: true,
   apiData: [],
   apiError: null,
+  isLoading: true,
 };
 
 const postsListSlice = createSlice({
@@ -15,10 +16,17 @@ const postsListSlice = createSlice({
       return {
         ...state,
         apiData: action.payload,
+        isLoading: false,
       };
     },
+    setAsLoading(state, action) {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
   },
 });
 
 export default postsListSlice.reducer;
-export const { popularPosts } = postsListSlice.actions;
+export const { popularPosts, setAsLoading } = postsListSlice.actions;

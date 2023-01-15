@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import commentIcon from "../../resources/images/commentIcon.png";
+import { Link } from "react-router-dom";
+import { Animate } from "react-simple-animate";
 
-export default function Post({ post }) {
+export default function Post({ post, index }) {
   const title = post.title;
   const author = post.author;
   // const when = post.when;
@@ -9,13 +11,21 @@ export default function Post({ post }) {
   const imageUrl = post.imageUrl;
   const postURL = post.postURL;
   const numComments = post.numComments;
-  // const commentsUrl = post.commentsUrl;
+  const commentsUrl = post.commentsUrl;
   const subreddit = post.subreddit;
   const subreddit_subscribers = post.subreddit_subscribers;
+  const [play, setPlay] = useState(true);
 
   let postBody;
   const isRedditlink = imageUrl.match(/(redd.*it)/);
   const isVideo = imageUrl.match(/(https:\/\/v.*)/);
+
+
+  const commentsHtml = (
+    <a href={`https://www.reddit.com${commentsUrl}`} target="_blank">
+      {numComments} comments
+    </a>
+  );
 
   //post with image
   if (postURL && isRedditlink && !isVideo) {
@@ -24,10 +34,8 @@ export default function Post({ post }) {
         <div id="postBody" className="flex flex-row items-center rounded">
           <img src={imageUrl} alt="post" className="w-full rounded-xl mb-3" />
         </div>
-        <div id="postFooter" className="flex flex-row items-baseline">
-        {/* <a href='' >  */}
-        {numComments} comments
-         {/* </a> */}
+        <div id="postFooter" className="flex flex-row items-baseline  text-[#a4a7b3]">
+          {commentsHtml}
           <img
             src={commentIcon}
             alt="comments icon"
@@ -54,18 +62,16 @@ export default function Post({ post }) {
         >
           <div id="external-link" className=" text-[#1E1E2D] whitespace-normal">
             <div className="text-base font-semibold">
-              {isVideo ? "Video" : "External"} Link
+              <a href={postURL} target="_blank">
+                {isVideo ? "Video" : "External"} Link
+              </a>
             </div>
-            {/* <a href={imageUrl} target="_blank" rel="noreferrer"> */}
+            <a href={postURL} target="_blank">
               {imageUrl}
-            {/* </a> */}
+            </a>
           </div>
           <div className="flex flex-row items-baseline">
-            <div className=" text-[#1E1E2D]">
-              {/* <a href='' >  */}
-              {numComments} comments 
-              {/* </a> */}
-              </div>
+            <div className=" text-[#1E1E2D]">{commentsHtml}</div>
             <div>
               <img
                 src={commentIcon}
@@ -92,11 +98,7 @@ export default function Post({ post }) {
           flex justify-center items-baseline
           "
         >
-          <div className=" text-[#1E1E2D]">
-             {/* <a href='' >  */}
-             {numComments} comments 
-             {/* </a> */}
-             </div>
+          <div className=" text-[#1E1E2D]">{commentsHtml}</div>
           <div>
             <img
               src={commentIcon}
@@ -117,42 +119,54 @@ export default function Post({ post }) {
   // h-12 = 48px
 
   return (
-    <div
-      id="wholePost"
-      className="flex flex-col items-center w-full truncate
+    <>
+      <Animate
+        play={play}
+        key={index}
+        sequenceIndex={index}
+        start={{ opacity: 0, transform: "translateY(-10px)" }}
+        end={{ opacity: 1, transform: "translateY(0)" }}
+      >
+        <div
+          id="wholePost"
+          className="flex flex-col items-center w-full truncate
     pl-12 pr-12 pt-7 pb-6
     mb-6
-    bg-gradient-to-b from-[#273a5c] to-[#22283f]
+    bg-gradient-to-b from-[#323949] to-[#252B39]
     drop-shadow-xl
     rounded-xl
     "
-    >
-      <div
-        id="postHeader"
-        className="flex flex-row w-full justify-between items-baseline flex-wrap
-        mb-3 "
-      >
-        <div
-          id="post-title"
-          className="text-xl font-semibold whitespace-normal"
         >
-          {title}
-        </div>
+          <div
+            id="postHeader"
+            className="flex flex-row w-full justify-between items-baseline flex-wrap
+        mb-3 "
+          >
+            <div
+              id="post-title"
+              className="text-xl font-semibold whitespace-normal"
+            >
+              <a href={postURL} target="_blank">
+                {title}
+              </a>
+            </div>
 
-        <div id="post-author" className="text-xs font-normal">
-          posted by {author}
-          <span id="post-posted" className="ml-2">
-            {timeAgo} hours ago
-          </span>
-        </div>
-      </div>
+            <div id="post-author" className="text-xs font-normal text-[#a4a7b3] ">
+              posted by {author}
+              <span id="post-posted" className="ml-2">
+                {timeAgo} hours ago
+              </span>
+            </div>
+          </div>
 
-      {postBody}
-      <div className="w-full text-xs">
-        {/* <a href='' className="hover:underline" > */}
-          {subreddit}
-          {/* </a> */}
-       ({subreddit_subscribers} subscribers)</div>
-    </div>
+          {postBody}
+          <div className="w-full text-xs  text-[#a4a7b3]">
+            {/* <a href='' className="hover:underline" > */}
+            {subreddit}
+            {/* </a> */}({subreddit_subscribers} subscribers)
+          </div>
+        </div>
+      </Animate>
+    </>
   );
 }

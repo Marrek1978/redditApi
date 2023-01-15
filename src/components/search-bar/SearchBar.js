@@ -1,27 +1,44 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { search } from "../../features/searchSlice";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import alien from "../../resources/images/blue-alien.png";
 import glass from "../../resources/images/glass.png";
+import {
+  fetchSearchedPostsAPI,
+  sanitizePostFromRawData,
+} from "../../services/APIServices";
+import { popularPosts } from "../../features/PostSlice";
+import { Link } from "react-router-dom";
 
 export default function SearchBar() {
   const [searchString, setSearchString] = useState("");
   const dispatch = useDispatch();
+  const rawSearchedPostsData = useSelector((state) => state.rawPopularPosts);
 
   const handleSearchStringChange = (event) =>
     setSearchString(event.target.value);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
+  async function handleSearch(e) {
+    e.preventDefault();
     if (searchString !== "") {
-      dispatch(search(searchString));
+      try {
+        let rawData = await fetchSearchedPostsAPI(searchString);
+        const sanitizedPostsArray = sanitizePostFromRawData(rawData);
+        dispatch(popularPosts(sanitizedPostsArray));
+      } catch (e) {
+        console.log("error is ", e);
+      }
     }
-    setSearchString("");
-  };
 
-  // const searchTerm = useSelector((state) => state.search.searchKey);
-  // console.log(' in search bar searchTerm is ', searchTerm)
+    setSearchString("");
+  }
+
+  function refetchPopularPosts() {
+    console.log("rawSearchedPostsData is ", rawSearchedPostsData);
+    const sanitizedPostsArray = sanitizePostFromRawData(
+      rawSearchedPostsData.apiData
+    );
+    dispatch(popularPosts(sanitizedPostsArray));
+  }
 
   return (
     <>
@@ -29,14 +46,19 @@ export default function SearchBar() {
         id="search-bar"
         className="
         w-screen 
-        bg-gradient-to-b from-[#273a5c] to-[#22283f]
+        bg-[#3A4151]
+       
         drop-shadow-xl
         h-16
         "
       >
         <div className="max-w-screen-xl  m-auto flex items-center h-full justify-between relative right-2">
           <Link to="/" className="hover:no-underline">
-            <div id="logo" className="text-xl font-medium text-[#FF4500]">
+            <div
+              id="logo"
+              className="text-xl font-medium text-[#FF4500]"
+              onClick={refetchPopularPosts}
+            >
               Réd-it
               <span className="text-white pl-1">API</span>
             </div>
@@ -49,7 +71,7 @@ export default function SearchBar() {
                 name="search-for"
                 value={searchString}
                 onChange={handleSearchStringChange}
-                className="bg-[#30405D] opacity-100 shadow appearance-none 
+                className=" bg-[#525a6d] opacity-100 shadow appearance-none 
                 border rounded  border-slate-900
                 w-full py-2 px-3
                 placeholder:text-slate-400
@@ -64,7 +86,8 @@ export default function SearchBar() {
               <button
                 type="submit"
                 onClick={handleSearch}
-                className="bg-[#101F3B] rounded-r-lg p-2 relative left-[-3px] "
+                className="bg-[#101F3B] rounded-r-lg p-2 relative left-[-3px]
+                 "
               >
                 <img src={glass} alt="Alien" className="w-6 " />
               </button>

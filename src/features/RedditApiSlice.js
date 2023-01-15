@@ -4,6 +4,7 @@ const initialState = {
   isOk: true,
   apiData: [],
   apiError: null,
+  isLoading: true
 };
 
 const popularApiSlice = createSlice({
@@ -11,12 +12,19 @@ const popularApiSlice = createSlice({
   initialState,
   reducers: {
     rawPopularPosts(state, action) {
-      // console.log("in rawPopularAPI Slice and raw data is ", action.payload);
+      console.log("in rawPopularAPI Slice and raw data is ", action.payload);
       return {
         ...state,
-        apiData: action.payload,
+        apiData: action.payload.apiData,
+        isLoading: action.payload.isLoading
       };
     },
+    loading(state, action) {
+      return {
+        ...state,
+        loading: action.payload
+      }
+    }
   },
 });
 

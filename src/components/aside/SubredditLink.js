@@ -1,40 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSubredditPostsAPI } from "../../services/useRedditAPI.js";
+import { fetchSubredditPostsAPI } from "../../services/APIServices.js";
 
-export default function SubredditLink({ item }) {
-  let icon;
-  let reddit;
 
-  for (let key in item) {
-    if (key === "iconUrl") {
-      if (item[key] === "") {
-        icon =
-          "https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png";
-      } else {
-        icon = item[key];
-      }
-    }
-    if (key === "subreddit") {
-      reddit = item[key];
-    }
-  }
 
-  function subredditClickHandler(e) {
-    console.log("subreddit clicked");
-    // useSubredditPostsAPI(reddit);
-  }
+export default function SubredditLink({ icon, reddit, handleLinkClick }) {
+
+  const [subReddit, setSubReddit] = useState(reddit);
+  
 
   return (
     <>
-      <Link to={`/subreddit/${reddit}`} onClick={subredditClickHandler}>
-        <div 
-        className="flex mb-0 p-3 rounded-lg hover:bg-rose-900 hover:cursor-pointer"
-        // onClick={subredditClickHandler}
-        >
-          <img src={icon} alt="icon" className="w-6 h-6 mr-3" />
-          <div className="font-semibold text-sm">{reddit}</div>
-        </div>
+      <Link
+        to={`/subreddit/${reddit}`}
+        // onClick={fetchSubredditPostsAPI(reddit)}
+      >
+      <div
+      
+        className="flex mb-0 p-3 
+          rounded-lg hover:bg-[#C84438] "
+
+        // onClick={()=> { fetchSubredditPostsAPI(reddit); }}
+      >
+        <img src={icon} alt="icon" className="w-6 h-6 mr-3"  />
+        <button onClick={handleLinkClick}>
+          <div className="font-semibold text-sm" 
+            id={subReddit}>
+            {subReddit}
+          </div>
+        </button>
+      </div>
       </Link>
     </>
   );

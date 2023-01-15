@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Post from "../posts/Post.js";
-import { useSubredditPostsAPI } from "../../services/useRedditAPI.js";
+import { fetchSubredditPostsAPI } from "../../services/APIServices.js";
 import { useParams } from "react-router-dom";
 
 export default function SubredditPostsList() {
   
   
-  const { subreddit } = useParams();
-  useSubredditPostsAPI(subreddit);
+  // const { subreddit } = useParams();
+  // fetchSubredditPostsAPI(subreddit);
   
   const postsListArray = useSelector((state) => state.popularPosts.apiData);
   console.log("postsListArray in subred post List is, ", postsListArray);
